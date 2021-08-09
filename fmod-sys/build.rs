@@ -11,7 +11,7 @@ fn main() {
            Path::new(&dir).join("lib").to_str().unwrap()
        );
     */
-    //println!("cargo:rustc-link-search={}", dir);
+    println!("cargo:rustc-link-search={}", dir);
     {
         //WINDOWS // copy fmodL_vc.lib and name it to: fmodL.lib
         #[cfg(all(not(feature = "debug"), target_os = "windows"))]
@@ -34,16 +34,16 @@ fn main() {
     {
         //LINUX
         #[cfg(all(not(feature = "debug"), target_os = "linux"))]
-        println!("cargo:rustc-link-lib=libfmod");
-
-        #[cfg(all(feature = "studio", not(feature = "debug"), target_os = "linux"))]
-        println!("cargo:rustc-link-lib=libfmodstudio");
+        println!("cargo:rustc-link-lib=fmod");
 
         #[cfg(all(feature = "debug", target_os = "linux"))]
-        println!("cargo:rustc-link-lib=libfmodL");
+        println!("cargo:rustc-link-lib=fmodL");
+
+        #[cfg(all(feature = "studio", not(feature = "debug"), target_os = "linux"))]
+        println!("cargo:rustc-link-lib=fmodstudio");
 
         #[cfg(all(feature = "studio", feature = "debug", target_os = "linux"))]
-        println!("cargo:rustc-link-lib=libfmodstudioL");
+        println!("cargo:rustc-link-lib=fmodstudioL");
     }
 
     let bindings = bindgen::Builder::default()
